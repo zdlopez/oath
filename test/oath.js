@@ -102,18 +102,21 @@ describe('oath', function () {
   describe('chaining', function () {
     it('should allow you to chain promises using then', function (done) {
       var step1 = function (num) {
+        console.log("Num in step1: ", num);
         return promiseTimeout(function () {
           return num + 10;
         }, 5);
       };
 
       var step2 = function (num) {
+        console.log("Num in step2: ", num);
         return promiseTimeout(function () {
           return num + 20;
         }, 5);
       };
 
       step1(100).then(step2).then(function (num) {
+        console.log("num in final then is ", num);
         expect(num).to.equal(130);
         done();
       });
