@@ -1,6 +1,6 @@
 /* globals describe, it, xit */
 var chai   = require('chai');
-var oath   = require('../lib/oath.js');
+var oath   = require('../lib/oath.js'); // {defer: Defer}
 var expect = chai.expect;
 var _      = require('underscore');
 
@@ -82,7 +82,7 @@ describe('oath', function () {
     };
 
     var promised = oath.promisify(nodeStyle);
-    xit('should call then on success', function (done) {
+    it('should call then on success', function (done) {
       promised(bigEnough)
         .then(function (message) {
           expect(message).to.equal('That\'s a big number!');
@@ -90,7 +90,7 @@ describe('oath', function () {
         });
     });
 
-    xit('should call catch on error', function (done) {
+    it('should call catch on error', function (done) {
       promised(tooSmall)
         .catch(function (message) {
           expect(message).to.equal('Not big enough!');
@@ -102,21 +102,18 @@ describe('oath', function () {
   describe('chaining', function () {
     it('should allow you to chain promises using then', function (done) {
       var step1 = function (num) {
-        console.log("Num in step1: ", num);
         return promiseTimeout(function () {
           return num + 10;
         }, 5);
       };
 
       var step2 = function (num) {
-        console.log("Num in step2: ", num);
         return promiseTimeout(function () {
           return num + 20;
         }, 5);
       };
 
       step1(100).then(step2).then(function (num) {
-        console.log("num in final then is ", num);
         expect(num).to.equal(130);
         done();
       });
